@@ -96,7 +96,8 @@ def pipeline() -> Pipeline:
 
 
 def _check_secret(authorization: str | None):
-    if settings.webhook_secret and authorization != f"Bearer {settings.webhook_secret}":
+    # Accept both "Bearer <token>" and the raw token (GREEN-API webhookUrlToken)
+    if settings.webhook_secret and authorization not in (settings.webhook_secret, f"Bearer {settings.webhook_secret}"):
         raise HTTPException(status_code=401, detail="bad token")
 
 
