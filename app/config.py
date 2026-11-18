@@ -27,6 +27,11 @@ class Settings:
     # WhatsApp chat id of the staff member who receives handoffs, e.g. 37477000000@c.us
     staff_chat_id: str = field(default_factory=lambda: _env("STAFF_CHAT_ID"))
     webhook_secret: str = field(default_factory=lambda: _env("WEBHOOK_SECRET"))
+    # Chats the bot may answer: empty or "*" = everyone, "none" = nobody,
+    # otherwise comma-separated chat ids / phone numbers (e.g. "37491000000,37455000000@c.us")
+    allowed_chats: str = field(default_factory=lambda: _env("ALLOWED_CHAT_IDS"))
+    # Forward every raw GREEN-API webhook here too (one instance can have only one webhook URL)
+    forward_webhook_url: str = field(default_factory=lambda: _env("FORWARD_WEBHOOK_URL"))
 
     knowledge_dir: Path = ROOT / "knowledge"
     # Vercel functions can only write to /tmp

@@ -6,6 +6,8 @@ import time
 from collections import OrderedDict
 from typing import Callable
 
+import httpx
+
 from fastapi import BackgroundTasks, FastAPI, Header, HTTPException, Request
 from pydantic import BaseModel
 
@@ -101,6 +103,27 @@ def _check_secret(authorization: str | None):
         raise HTTPException(status_code=401, detail="bad token")
 
 
+def is_allowed(chat_id: str) -> bool:
+    rule = settings.allowed_chats.strip()
+    if rule in ("", "*"):
+        return True
+    if rule.lower() == "none":
+        return False
+    allowed = {x.strip().lstrip("+").split("@")[0] for x in rule.split(",") if x.strip()}
+    return chat_id.split("@")[0] in allowed
+
+
+def forward_webhook(payload: dict, authorization: str | None) -> None:
+    """Pass the webhook on unchanged (same Authorization header) to another service, e.g. a CRM."""
+    if not settings.forward_webhook_url:
+        return
+    headers = {"Authorization": authorization} if authorization else {}
+    try:
+        httpx.post(settings.forward_webhook_url, json=payload, headers=headers, timeout=10)
+    except Exception:
+        log.exception("webhook forward failed")
+
+
 def _safe_handle(msg: Incoming):
     try:
         pipeline().handle(msg)
@@ -117,7 +140,12 @@ def health():
 async def webhook(request: Request, background: BackgroundTasks, authorization: str | None = Header(None)):
     # GREEN-API sends `Authorization: Bearer <webhookUrlToken>` when the token is set in the console.
     _check_secret(authorization)
-    msg = parse_webhook(await request.json())
+    payload = await request.json()
+    forward_webhook(payload, authorization)
+    msg = parse_webhook(payload)
+    if msg and not is_allowed(msg.chat_id):
+        log.info("chat %s not in ALLOWED_CHAT_IDS, ignored", msg.chat_id)
+        msg = None
     if msg and not pipeline().is_duplicate(msg.message_id):
         if settings.sync_webhook:
             _safe_handle(msg)                        # serverless: finish before returning

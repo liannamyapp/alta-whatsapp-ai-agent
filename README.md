@@ -31,7 +31,7 @@ WhatsApp ──► GREEN-API ──webhook──► FastAPI /webhook ──(back
 | `app/voice.py` | Speech-to-text and text-to-speech |
 | `app/store.py` | Conversation history, leads, handoffs, turn metrics, aggregate stats |
 | `evals/` | Evaluation dataset (24 cases, 3 languages) and runner |
-| `tests/` | 12 offline tests with fake LLM/embeddings (no API key needed) |
+| `tests/` | 13 offline tests with fake LLM/embeddings (no API key needed) |
 
 ## Design decisions
 
@@ -42,6 +42,9 @@ WhatsApp ──► GREEN-API ──webhook──► FastAPI /webhook ──(back
   (one topic = one chunk). This keeps prices and their course names in the same chunk.
 - **Voice in, voice out.** A voice note gets a voice reply *and* a text copy; if TTS fails the
   text is still sent. Replies are kept to 1–3 sentences without lists or emojis so they sound natural.
+- **Safe on a shared number.** `ALLOWED_CHAT_IDS` limits who the bot answers, and
+  `FORWARD_WEBHOOK_URL` passes every webhook on to an existing CRM, because a GREEN-API
+  instance has only one webhook URL.
 - **Fast webhook ack.** The webhook returns immediately and the work runs in a background task,
   so GREEN-API never times out or retries; repeated message ids are ignored.
 

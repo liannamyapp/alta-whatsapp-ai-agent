@@ -179,3 +179,27 @@ def test_webhook_endpoint_auth_and_dispatch(index, monkeypatch):
     assert c.post("/webhook", json=body, headers={"Authorization": "Bearer s3cret"}).status_code == 200
     assert wa.texts == [("1@c.us", "Barev!")]
     m._pipeline = None
+
+
+def test_allowed_chats_and_forwarding(index, monkeypatch):
+    from dataclasses import replace
+    from fastapi.testclient import TestClient
+    import app.main as m
+    forwarded = []
+    monkeypatch.setattr(m.httpx, "post", lambda url, json, headers, timeout: forwarded.append((url, headers)))
+    store, wa = Store(":memory:"), FakeWA()
+    m._pipeline = Pipeline(Agent(index, store, chat_fn=ScriptedLLM(reply("Hi!"))), wa, store, None, None)
+    monkeypatch.setattr(m, "settings", replace(settings, webhook_secret="tok", allowed_chats="+37491111111",
+                                               forward_webhook_url="https://crm/hook"))
+    c = TestClient(m.app)
+    msg = lambda cid, mid: {"typeWebhook": "incomingMessageReceived", "idMessage": mid,
+                            "senderData": {"chatId": cid},
+                            "messageData": {"typeMessage": "textMessage", "textMessageData": {"textMessage": "x"}}}
+    c.post("/webhook", json=msg("37499999999@c.us", "a"), headers={"Authorization": "tok"})
+    assert wa.texts == []                                  # not allowed -> bot silent
+    c.post("/webhook", json=msg("37491111111@c.us", "b"), headers={"Authorization": "tok"})
+    assert wa.texts == [("37491111111@c.us", "Hi!")]
+    assert forwarded == [("https://crm/hook", {"Authorization": "tok"})] * 2   # CRM still gets everything
+    monkeypatch.setattr(m, "settings", replace(settings, allowed_chats="none"))
+    assert not m.is_allowed("1@c.us")
+    m._pipeline = None
