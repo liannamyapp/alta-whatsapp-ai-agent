@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: alta-whatsapp-agent
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: GREENAPI_URL
+        sync: false
+      - key: GREENAPI_MEDIA_URL
+        sync: false
+      - key: GREENAPI_INSTANCE_ID
+        sync: false
+      - key: GREENAPI_TOKEN
+        sync: false
+      - key: STAFF_CHAT_ID
+        sync: false
+      - key: WEBHOOK_SECRET
+        sync: false

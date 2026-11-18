@@ -1,0 +1,24 @@
+{"id": "price-frontend-hy", "lang": "hy", "category": "fact", "question": "Ինչ արժե ֆրոնտենդի դասընթացը?", "expected_topics": ["Programming courses"], "must_include": ["50000"], "expect_handoff": false}
+{"id": "price-backend-ru", "lang": "ru", "category": "fact", "question": "Сколько стоит курс бэкенда в месяц?", "expected_topics": ["Programming courses"], "must_include": ["50000"], "expect_handoff": false}
+{"id": "price-ai-business-en", "lang": "en", "category": "fact", "question": "How much is the AI for business and marketing course?", "expected_topics": ["AI courses"], "must_include": ["95000"], "expect_handoff": false}
+{"id": "price-ai-everyone-hy", "lang": "hy", "category": "fact", "question": "Արհեստական բանականություն բոլորի համար դասընթացի գինը որքան է?", "expected_topics": ["AI courses"], "must_include": ["65000"], "expect_handoff": false}
+{"id": "price-ai-dev-ru", "lang": "ru", "category": "fact", "question": "Какая цена курса ИИ для разработчиков?", "expected_topics": ["AI courses"], "must_include": ["70000"], "expect_handoff": false}
+{"id": "individual-en", "lang": "en", "category": "fact", "question": "Do you have one-to-one lessons and what do they cost?", "expected_topics": ["Course formats"], "must_include": ["125000"], "expect_handoff": false}
+{"id": "online-hy", "lang": "hy", "category": "fact", "question": "Դասերը առցանց են, թե պետք է գալ կենտրոն?", "expected_topics": ["About ALTA Academy"], "must_include": [], "expect_handoff": false}
+{"id": "payment-ru", "lang": "ru", "category": "fact", "question": "Как можно оплатить? Idram принимаете?", "expected_topics": ["Payment"], "must_include": ["Idram"], "expect_handoff": false}
+{"id": "payment-reminder-en", "lang": "en", "category": "fact", "question": "Will I get a reminder before my monthly payment?", "expected_topics": ["Payment"], "must_include": ["5"], "expect_handoff": false}
+{"id": "certificate-hy", "lang": "hy", "category": "fact", "question": "Ավարտելուց հետո վկայական տալիս եք?", "expected_topics": ["Certificate"], "must_include": [], "expect_handoff": false}
+{"id": "contract-en", "lang": "en", "category": "fact", "question": "How do I sign the contract?", "expected_topics": ["Student account"], "must_include": [], "expect_handoff": false}
+{"id": "videos-ru", "lang": "ru", "category": "fact", "question": "Где я смогу смотреть видеоуроки?", "expected_topics": ["Student account"], "must_include": [], "expect_handoff": false}
+{"id": "email-hy", "lang": "hy", "category": "fact", "question": "Ձեր էլ. հասցեն ինչ է?", "expected_topics": ["Contacts"], "must_include": ["altaacademy666@gmail.com"], "expect_handoff": false}
+{"id": "register-en", "lang": "en", "category": "fact", "question": "How do I register for a course?", "expected_topics": ["Contacts"], "must_include": [], "expect_handoff": false}
+{"id": "fullstack-hy", "lang": "hy", "category": "fact", "question": "Ուզում եմ դառնալ ֆուլսթեք ծրագրավորող, որ դասընթացն ընտրեմ?", "expected_topics": ["Programming courses"], "must_include": [], "expect_handoff": false}
+{"id": "start-date-ru", "lang": "ru", "category": "unknown", "question": "Когда стартует следующая группа по фронтенду?", "expected_topics": [], "must_include": [], "expect_handoff": true}
+{"id": "duration-en", "lang": "en", "category": "unknown", "question": "How many months does the backend course last?", "expected_topics": [], "must_include": [], "expect_handoff": true}
+{"id": "discount-hy", "lang": "hy", "category": "unknown", "question": "Եթե երկու դասընթաց միանգամից վերցնեմ, զեղչ կլինի?", "expected_topics": [], "must_include": [], "expect_handoff": true}
+{"id": "schedule-en", "lang": "en", "category": "unknown", "question": "What days and times are the group classes?", "expected_topics": [], "must_include": [], "expect_handoff": true}
+{"id": "human-ru", "lang": "ru", "category": "handoff_request", "question": "Можно поговорить с живым человеком?", "expected_topics": [], "must_include": [], "expect_handoff": true}
+{"id": "complaint-hy", "lang": "hy", "category": "handoff_request", "question": "Երեկվանից գրում եմ, ոչ ոք չի պատասխանում, շատ դժգոհ եմ", "expected_topics": [], "must_include": [], "expect_handoff": true}
+{"id": "lead-en", "lang": "en", "category": "lead", "question": "I'm Anna and I want to sign up for the AI for everyone course in a group.", "expected_topics": [], "must_include": [], "expect_handoff": false, "expect_tool": "create_lead"}
+{"id": "oos-weather-en", "lang": "en", "category": "out_of_scope", "question": "What's the weather in Yerevan tomorrow?", "expected_topics": [], "must_include": [], "expect_handoff": false, "no_facts": true}
+{"id": "trap-python-ru", "lang": "ru", "category": "unknown", "question": "Сколько стоит ваш курс по Python для детей?", "expected_topics": [], "must_include": [], "expect_handoff": true}
